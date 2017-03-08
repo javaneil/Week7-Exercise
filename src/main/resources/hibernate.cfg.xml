@@ -1,0 +1,42 @@
+<?xml version='1.0' encoding='utf-8'?>
+
+<!DOCTYPE hibernate-configuration PUBLIC
+        "-//Hibernate/Hibernate Configuration DTD 3.0//EN"
+        "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
+
+<!--
+MySQL configuration using MySQL command-line
+    CREATE DATABASE IF NOT EXISTS week7 ;
+    USE week7 ;
+    DROP TABLE IF EXISTS users ;
+    CREATE TABLE users (
+      id            int(11) NOT NULL auto_increment,
+      first_name    varchar(25),
+      last_name     varchar(30),
+      date_of_birth date,
+      PRIMARY KEY (id)
+    ) ;
+    DESCRIBE users ;
+-->
+
+<hibernate-configuration>
+    <session-factory>
+
+        <!-- Database connection settings -->
+        <property name="connection.driver_class">com.mysql.jdbc.Driver</property>
+        <property name="connection.url">jdbc:mysql://localhost:3306/week7</property>
+        <!-- the following must agree with your MySQL installation -->
+        <property name="connection.username">root</property>
+        <property name="connection.password">nkfroot</property>
+
+        <!-- SQL dialect -->
+        <property name="dialect">org.hibernate.dialect.MySQL5Dialect</property>
+
+        <!-- Echo all executed SQL to stdout -->
+        <property name="show_sql">true</property>
+
+        <!-- List the annotated entity class/es -->
+        <mapping class="com.neil.entity.Users"/>
+
+    </session-factory>
+</hibernate-configuration>
