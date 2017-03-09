@@ -1,9 +1,10 @@
 package com.neil.persistence;
 
-import com.neil.entity.Users;
+import com.neil.entity.User;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import static org.junit.Assert.* ;
@@ -19,11 +20,26 @@ public class UsersDaoTest {
         dao = new UsersDao() ;
     }
 
-    @Test
-    public void getAllUsers() throws Exception {
-        List<Users> users = dao.getAllUsers() ;
-        assertTrue( users.size() > 0 ) ;
 
+    /**
+     * This is about the simplest test that can be done:
+     * Create a single user
+     * Verify added to table using Get-All
+     * Delete same user
+     * Verify removed using Get-All again...
+     *
+     * @throws Exception
+     */
+    @Test
+    public void createUser() throws Exception {
+        User user = new User( 0, "First", "Last", LocalDate.parse( "2000-01-01" ) ) ;
+        int id = dao.createUser( user ) ;
+        assertNotEquals( id, 0 ) ;
+        assertTrue( dao.getAllUsers().size() == 1 ) ;
+        if ( 0 < id ) {
+            dao.deleteUser( id ) ;
+        }
+        assertTrue( dao.getAllUsers().size() == 0 ) ;
     }
 }
 

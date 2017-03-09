@@ -12,7 +12,7 @@ import java.time.LocalDate;
 
 @Entity
 @Table( name = "users" )
-public class Users {
+public class User {
 
     @Id
     @GeneratedValue( generator = "increment" )
@@ -30,10 +30,10 @@ public class Users {
     @Convert( converter = LocalDateAttributeConverter.class )
     private LocalDate date_of_birth ;
 
-    public Users() {
+    public User() {
     }
 
-    public Users( int id, String first, String last, LocalDate bday ) {
+    public User(int id, String first, String last, LocalDate bday ) {
         this.id = id ;
         this.first_name = first ;
         this.last_name = last ;
@@ -66,6 +66,13 @@ public class Users {
     }
     public void setDate_of_birth(LocalDate date_of_birth) {
         this.date_of_birth = date_of_birth;
+    }
+
+    @Override
+    public String toString() {
+        String out ;
+        out = String.valueOf( id ) + "  " + first_name + "  " + last_name ;
+        return out ;
     }
 
 }
