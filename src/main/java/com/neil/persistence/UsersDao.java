@@ -18,8 +18,10 @@ public class UsersDao {
 
     public List<User> getAllUsers() {
         List<User> users = new ArrayList<User>() ;
-        Session session = SessionFactoryProvider.getSessionFactory().openSession() ;
+
+        Session session = null ;
         try {
+            session = SessionFactoryProvider.getSessionFactory().openSession() ;
             users = session.createCriteria(User.class).list();
         }
         catch ( HibernateException hex ) {
@@ -45,9 +47,10 @@ public class UsersDao {
         log.info( "UserDao.createUser( " + user + " )" ) ;
         int id = 0 ;
 
-        Session session = SessionFactoryProvider.getSessionFactory().openSession() ;
+        Session session = null ;
         Transaction transaction = null ;
         try {
+            session = SessionFactoryProvider.getSessionFactory().openSession() ;
             transaction = session.beginTransaction() ;
             id = (int) session.save( user ) ;
             transaction.commit() ;
@@ -68,6 +71,33 @@ public class UsersDao {
 
 
     /**
+     * RETRIEVE - retrieve a user row given its id
+     *
+     * @param id the user's id
+     * @return user
+     */
+    public User retrieveUser( int id ) {
+        log.info( "UsersDao.retrieveUser( " + id + " )" ) ;
+        User user = null ;
+
+        Session session = null ;
+        try {
+            session = SessionFactoryProvider.getSessionFactory().openSession() ;
+            user = (User) session.get( User.class, id ) ;
+        }
+        catch ( HibernateException hex ) {
+            log.error( "Session.get fail:  ", hex ) ;
+        }
+        finally {
+            if ( null != session ) {
+                session.close();
+            }
+        }
+        return user ;
+    }
+
+
+    /**
      * Delete - remove a user row by id
      * @param id the user's id
      *
@@ -76,9 +106,10 @@ public class UsersDao {
     public void deleteUser(int id ) {
         log.info( "UserDao.deleteUser( " + id + " )" ) ;
 
-        Session session = SessionFactoryProvider.getSessionFactory().openSession() ;
+        Session session = null ;
         Transaction transaction = null ;
         try {
+            session = SessionFactoryProvider.getSessionFactory().openSession() ;
             transaction = session.beginTransaction() ;
             User user = (User) session.get( User.class, id ) ;
             session.delete( user ) ;
@@ -91,7 +122,9 @@ public class UsersDao {
             }
         }
         finally {
-            session.close() ;
+            if ( null != session ) {
+                session.close();
+            }
         }
     }
 

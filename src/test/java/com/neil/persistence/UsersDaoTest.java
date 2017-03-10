@@ -32,14 +32,15 @@ public class UsersDaoTest {
      */
     @Test
     public void createUser() throws Exception {
+        int startingSize = dao.getAllUsers().size() ;
         User user = new User( 0, "First", "Last", LocalDate.parse( "2000-01-01" ) ) ;
         int id = dao.createUser( user ) ;
         assertNotEquals( id, 0 ) ;
-        assertTrue( dao.getAllUsers().size() == 1 ) ;
+        assertTrue( dao.getAllUsers().size() == startingSize + 1 ) ; // 1 record added
         if ( 0 < id ) {
             dao.deleteUser( id ) ;
         }
-        assertTrue( dao.getAllUsers().size() == 0 ) ;
+        assertTrue( dao.getAllUsers().size() == startingSize ) ; // 1 record removed
     }
 }
 
